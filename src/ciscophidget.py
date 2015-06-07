@@ -1,3 +1,19 @@
+# coding: utf-8
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# 
+
 import os
 import usb.core
 
@@ -7,18 +23,20 @@ class Module1011:
     an USB Analog/Digital interface capable of 2 analog in and 2 digital in/out.
     """
 
-    def __init__(self, usbip_server, eiot_mac):
+    def __init__(self, usbip_server, eiot_mac, debug=False):
         """
         Initialization method for the class.
         """
-        print " * Initializing EIoT %s@%s..." % (eiot_mac, usbip_server)
+        if debug:
+            print " * Initializing EIoT %s@%s..." % (eiot_mac, usbip_server)
         os.environ["USBIP_SERVER"] = usbip_server
         self.device = usb.core.find(address=int(eiot_mac, 16))
         if self.device is None:
             raise ValueError('EIoT device %s not found.' % eiot_mac)
         self.endpoint = self.device[0][(0,0)][0]
         self.device.set_configuration()
-        print " * ...done!"
+        if debug:
+            print " * ...done!"
 
     def __normalize_analog__(self, raw_value):
         """

@@ -1,5 +1,6 @@
 #Virtual Enviroment directory
 venv/
+.env
 
 #Apple MacOS cache
 .DS_Store
